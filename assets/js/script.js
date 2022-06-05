@@ -25,8 +25,8 @@ var loadTasks = function() {
   if (!tasks) {
     tasks = {
       toDo: [],
-      inProgress: [],
-      inReview: [],
+      inProg: [],
+      inRev: [],
       done: []
     };
   }
@@ -142,6 +142,24 @@ $('.list-group').on('click', 'span', function () {
   dateInput.trigger('focus');
 });
 
+$('list-group').on('blur', 'input[type="text"]', function(){
+  var date = $(this)
+  .val()
+  .trim()
+
+  var status = $(this)
+  .closest('.list-group-item')
+  .index()
+
+  tasks[status][index].date = date;
+  saveTasks();
+
+  var taskSpan = $('<span>')
+  .addClass('badge badge-primary badge-pill')
+  .text(date);
+
+  $(this).replaceWith(taskSpan);
+});
 
 
 // load tasks for the first time
